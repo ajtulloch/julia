@@ -1,25 +1,14 @@
 ## type aliases ##
 
 if Int === Int32
-typealias SmallSigned Union(Int8,Int16)
-typealias SmallUnsigned Union(Uint8,Uint16)
-else
 typealias SmallSigned Union(Int8,Int16,Int32)
 typealias SmallUnsigned Union(Uint8,Uint16,Uint32)
+else
+typealias SmallSigned Union(Int8,Int16,Int32,Int64)
+typealias SmallUnsigned Union(Uint8,Uint16,Uint32,Uint64)
 end
 
 ## integer arithmetic ##
-
--(x::SmallSigned) = -int(x)
--(x::SmallUnsigned) = -uint(x)
-
-+{T<:SmallSigned}(x::T, y::T) = int(x) + int(y)
--{T<:SmallSigned}(x::T, y::T) = int(x) - int(y)
-*{T<:SmallSigned}(x::T, y::T) = int(x) * int(y)
-
-+{T<:SmallUnsigned}(x::T, y::T) = uint(x) + uint(y)
--{T<:SmallUnsigned}(x::T, y::T) = uint(x) - uint(y)
-*{T<:SmallUnsigned}(x::T, y::T) = uint(x) * uint(y)
 
 -(x::Int)     = box(Int,neg_int(unbox(Int,x)))
 -(x::Uint)    = box(Uint,neg_int(unbox(Uint,x)))
@@ -46,6 +35,17 @@ end
 *(x::Uint,    y::Uint)    = box(Uint,mul_int(unbox(Uint,x),unbox(Uint,y)))
 *(x::Int64,   y::Int64)   = box(Int64,mul_int(unbox(Int64,x),unbox(Int64,y)))
 *(x::Uint64,  y::Uint64)  = box(Uint64,mul_int(unbox(Uint64,x),unbox(Uint64,y)))
+
+-(x::SmallSigned) = -int(x)
+-(x::SmallUnsigned) = -uint(x)
+
++{T<:SmallSigned}(x::T, y::T) = int(x) + int(y)
+-{T<:SmallSigned}(x::T, y::T) = int(x) - int(y)
+*{T<:SmallSigned}(x::T, y::T) = int(x) * int(y)
+
++{T<:SmallUnsigned}(x::T, y::T) = uint(x) + uint(y)
+-{T<:SmallUnsigned}(x::T, y::T) = uint(x) - uint(y)
+*{T<:SmallUnsigned}(x::T, y::T) = uint(x) * uint(y)
 
 /(x::Integer, y::Integer) = float(x)/float(y)
 inv(x::Integer) = float(one(x))/float(x)
